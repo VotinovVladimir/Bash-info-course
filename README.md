@@ -9,7 +9,7 @@
 1. [Введение в Bash: что такое оболочка, зачем нужна, типы оболочек](./level_1/task_1/theory.md)
 2. [Терминал Linux и Windows (WSL, PowerShell)](./level_1/task_2/theory.md)
 3. [Навигация по файловой системе: `pwd`, `cd`, `ls`, `tree`](./level_1/task_3/theory.md)
-4. Работа с файлами: `touch`, `rm`, `cp`, `mv`
+4. [Работа с файлами: `touch`, `rm`, `cp`, `mv`](./level_1/task_4/theory.md)
 5. Работа с каталогами: `mkdir`, `rmdir`, `rm -r`
 6. Просмотр содержимого файлов: `cat`, `less`, `more`, `head`, `tail`
 7. Перенаправление вывода: `>`, `>>`, `<`, `2>`, `&>`
