@@ -110,34 +110,42 @@
 
 ### Практика
 
-1. **Перенаправление stdout в файл**
-   Выведите список файлов текущего каталога в файл `files.txt` с помощью `>` и проверьте содержимое файла.
-2. **Добавление вывода в файл**
-   Запустите команду `ls` ещё раз и добавьте её вывод в `files.txt` с помощью `>>`, чтобы проверить, что данные добавились, а не перезаписались.
-3. **Перенаправление stdin из файла**
-   Создайте текстовый файл `numbers.txt` с десятью случайными числами. Отсортируйте их командой `sort < numbers.txt` и убедитесь, что результат отображается в терминале.
-4. **Использование пайпов**
-   Выведите список файлов с подробной информацией и передайте его через пайп в команду `grep`, чтобы найти файлы с расширением `.txt`:
-   <pre class="overflow-visible!" data-start="1040" data-end="1077"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>ls</span><span> -l | grep </span><span>".txt"</span><span>
+1. **Фильтрация логов с пайпами и stderr**
+   У вас есть файл `app.log`, в котором есть как информационные сообщения, так и ошибки.
+
+   * Выведите только строки с ошибками (`error`) и перенаправьте их в файл `errors_only.log`.
+   * Добавьте новые ошибки в тот же файл, не перезаписывая его.
+2. **Комбинированное использование stdout и stderr**
+   Выполните команду, которая создаёт файлы в недоступной директории, например:
+
+   <pre class="overflow-visible!" data-start="734" data-end="771"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>mkdir</span><span> /root/testdir
    </span></span></code></div></div></pre>
-5. **Перенаправление stderr**
-   Попробуйте выполнить команду `ls /nonexistent` и перенаправьте ошибки в файл `error.log` с помощью `2>`.
-6. **Добавление ошибок в файл**
-   Снова выполните команду `ls /nonexistent`, но добавьте ошибки в конец файла `error.log` с помощью `2>>`.
-7. **Объединение stdout и stderr**
-   Запустите команду, которая выводит и успешные сообщения, и ошибки, например `bash deploy.sh` (или любую другую команду, которая генерирует ошибки). Перенаправьте все сообщения в один файл `full_log.log` с помощью `&>`.
-8. **Игнорирование вывода**
-   Выполните команду, вывод которой вам не нужен, например `echo "Test"`, и перенаправьте stdout в `/dev/null`.
-9. **Комбинированное задание с пайпом и файлом**
-   Выведите список файлов, передайте его через `grep "config"` и сохраните результат в файл `config_files.txt`:
-   <pre class="overflow-visible!" data-start="1933" data-end="1991"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>ls</span><span> -l | grep </span><span>"config"</span><span> > config_files.txt
-   </span></span></code></div></div></pre>
-10. **Использование команды `tee`**
-    Выведите список процессов командой `ps aux` и одновременно сохраните результат в файл `processes.log`:
-    <pre class="overflow-visible!" data-start="2143" data-end="2189"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>ps aux | </span><span>tee</span><span> processes.log
-    </span></span></code></div></div></pre>
-11. **Практическая DevOps‑задача**
-    Предположим, у вас есть скрипт `monitor.sh`, который выводит сообщения об ошибках и успешных проверках.
-    * Сохраните ошибки в `monitor_errors.log`.
-    * Сохраните успешные сообщения в `monitor_success.log`.
-    * Создайте один общий лог `monitor_full.log`, содержащий и ошибки, и успешные сообщения.
+
+   * Перенаправьте успешные сообщения в `success.log`.
+   * Перенаправьте ошибки в `errors.log`.
+   * Объедините оба потока в один файл `combined.log`.
+3. **Использование `tee` для логирования и мониторинга**
+   Запустите команду `ping -c 5 8.8.8.8` и сохраните результат в файл `ping.log`, одновременно выводя его на экран.
+4. **Отслеживание обновлений логов в реальном времени**
+   Используйте `tail -f` на лог-файле `/var/log/syslog` (или любого локального файла `system.log`) и одновременно фильтруйте строки с ключевым словом `error` с помощью `grep`.
+
+   * Попробуйте перенаправить результат в `live_errors.log`.
+5. **Комбинация сортировки и перенаправления**
+   У вас есть файл `numbers.txt` с случайными числами.
+
+   * Отсортируйте его по возрастанию и сохраните результат в `sorted.txt`.
+   * Добавьте к отсортированному файлу новые числа и снова отсортируйте всё в `sorted.txt`, не теряя существующие данные.
+6. **Скрипт для DevOps‑мониторинга**
+   Напишите простой скрипт `check_disk.sh`, который проверяет использование диска (`df -h`).
+
+   * Перенаправьте успешный вывод в `disk_status.log`.
+   * Перенаправьте ошибки (если диск недоступен) в `disk_errors.log`.
+   * Настройте комбинированный вывод для полного лога `disk_full.log`.
+7. **Фильтрация командной цепочки**
+   Используйте команду `ps aux | grep ssh` и сохраните все процессы SSH в файл `ssh_processes.log`.
+
+   * Добавьте к этой команде перенаправление ошибок в отдельный файл `ps_errors.log`.
+8. **Игнорирование ненужного вывода**
+   Выполните команду, которая генерирует много стандартного вывода, например `find / -name "*.tmp"`:
+
+   * Отправьте stdout в `/dev/null`, оставив только ошибки для анализа.
