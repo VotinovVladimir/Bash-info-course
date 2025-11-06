@@ -14,7 +14,7 @@
 * запускать CI/CD пайплайны, деплой и тестирование;
 * анализировать логи и состояние системы.
 
-### 💼 Применение в DevOps:
+### Применение в DevOps:
 
 
 | Ситуация               | Что делает терминал                                                                             |
@@ -99,7 +99,7 @@ DevOps постоянно работает с системными путями,
 
 Bash позволяет **перенаправлять потоки ввода/вывода** и объединять команды через **пайплайны** (`|`).
 
-### 💼 Применение в DevOps:
+### Применение в DevOps:
 
 * Логи пайплайна → в файл для анализа:
   <pre class="overflow-visible!" data-start="4853" data-end="4898"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>./deploy.sh > deploy.log 2>&1
