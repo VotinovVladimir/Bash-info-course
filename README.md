@@ -10,7 +10,7 @@
 2. [Терминал Linux и Windows (WSL, PowerShell)](./level_1/task_2/theory.md)
 3. [Навигация по файловой системе: `pwd`, `cd`, `ls`, `tree`](./level_1/task_3/theory.md)
 4. [Работа с файлами: `touch`, `rm`, `cp`, `mv`](./level_1/task_4/theory.md)
-5. Работа с каталогами: `mkdir`, `rmdir`, `rm -r`
+5. [Работа с каталогами: `mkdir`, `rmdir`, `rm -r`](./level_1/task_5/theory.md)
 6. Просмотр содержимого файлов: `cat`, `less`, `more`, `head`, `tail`
 7. Перенаправление вывода: `>`, `>>`, `<`, `2>`, `&>`
 8. Пайпы: `|`
