@@ -1,87 +1,118 @@
 ## 📘 Просмотр содержимого файлов
 
-Умение просматривать содержимое файлов — ключевой навык работы в терминале. DevOps-инженеру часто нужно быстро анализировать конфигурации, логи или скрипты без открытия графического редактора. В Linux, macOS и WSL есть несколько команд для просмотра файлов различными способами: полностью, постранично или с определённого конца.
+В DevOps часто приходится работать с конфигурациями, логами и скриптами прямо в терминале. Для этого Linux, macOS и WSL предлагают несколько инструментов для просмотра файлов: полностью, постранично или с конца файла. Они позволяют анализировать состояние системы, проверять ошибки и отслеживать обновления без графических редакторов.
 
-Файлы могут быть любого типа, но для большинства текстовых файлов удобнее всего использовать стандартные инструменты командной строки.
+Большинство файлов на серверах — текстовые, поэтому эти команды работают именно с ними, но некоторые флаги полезны и для бинарных или больших логов.
 
-### Команда `cat`
+### Команда `cat` — полный вывод файла
 
-Команда `cat` (от **concatenate** — «соединять») выводит полный текст файла в терминал. Она проста и часто используется для просмотра небольших файлов.
+`cat` (от **concatenate** — «соединять») выводит содержимое одного или нескольких файлов в терминал.
 
-Примеры использования:
+Примеры и флаги:
 
-<pre class="overflow-visible!" data-start="706" data-end="926"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cat</span><span> file.txt                  </span><span># выводит содержимое file.txt</span><span>
-</span><span>cat</span><span> file1.txt file2.txt       </span><span># выводит содержимое двух файлов подряд</span><span>
-</span><span>cat</span><span> > newfile.txt             </span><span># создаёт новый файл и вводит текст с клавиатуры</span><span>
+<pre class="overflow-visible!" data-start="976" data-end="1382"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cat</span><span> file.txt                  </span><span># вывод всего содержимого файла</span><span>
+</span><span>cat</span><span> file1.txt file2.txt       </span><span># вывод нескольких файлов подряд</span><span>
+</span><span>cat</span><span> -n file.txt               </span><span># нумерует строки при выводе</span><span>
+</span><span>cat</span><span> -b file.txt               </span><span># нумерует только непустые строки</span><span>
+</span><span>cat</span><span> > newfile.txt             </span><span># создаёт новый файл и принимает ввод с клавиатуры</span><span>
+</span><span>cat</span><span> file1.txt file2.txt > merged.txt   </span><span># объединяет файлы в новый</span><span>
 </span></span></code></div></div></pre>
 
-Особенности: `cat` сразу выводит весь файл в терминал, поэтому для больших файлов лучше использовать постраничный просмотр.
+**Где применяют в DevOps:**
 
-### Команда `less`
+* Быстрый просмотр небольших конфигурационных файлов (`nginx.conf`, `.env`).
+* Объединение логов для анализа.
+* Создание временных файлов при тестировании скриптов.
 
-Команда `less` позволяет просматривать содержимое файлов постранично и навигировать внутри них. Аббревиатура неточная, но `less` считается улучшенной версией команды `more`.
+⚠️ Для больших файлов `cat` не лучший вариант, так как вывод может «завалить» терминал.
 
-Примеры использования:
+### Команда `less` — постраничный просмотр
 
-<pre class="overflow-visible!" data-start="1279" data-end="1421"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>less file.txt                 </span><span># открывает файл для постраничного просмотра</span><span>
-less /var/log/syslog           </span><span># удобный просмотр логов</span><span>
+`less` позволяет просматривать файлы постранично, перемещаться вперёд и назад, искать строки и не загружать весь файл в память. Часто используется вместо устаревшей команды `more`.
+
+Примеры и флаги:
+
+<pre class="overflow-visible!" data-start="1928" data-end="2125"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>less file.txt                 </span><span># открыть файл для постраничного просмотра</span><span>
+less +F /var/log/syslog       </span><span># аналог tail -f внутри less</span><span>
+less -N file.txt              </span><span># показать номера строк</span><span>
 </span></span></code></div></div></pre>
 
-Навигация внутри `less`:
+**Основные команды внутри less:**
 
-* `Space` — перейти на следующую страницу
-* `b` — вернуться на страницу назад
+* `Space` — следующая страница
+* `b` — предыдущая страница
 * `/текст` — поиск по файлу
-* `q` — выйти из просмотра
+* `n` — перейти к следующему результату поиска
+* `q` — выйти
 
-`less` не загружает весь файл в память, поэтому удобно работать с очень большими файлами.
+**Где применяют в DevOps:**
 
-### Команда `more`
+* Просмотр больших логов и конфигураций.
+* Поиск ошибок в системных логах.
+* Анализ результатов скриптов или CI/CD-процессов.
 
-Команда `more` похожа на `less`, но менее функциональна. Она также выводит текст постранично, но не позволяет прокручивать назад без специальных опций.
+### Команда `more` — базовый постраничный просмотр
 
-Пример использования:
+`more` выводит текст постранично, но не умеет прокручивать назад без дополнительных опций.
 
-<pre class="overflow-visible!" data-start="1885" data-end="1956"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>more file.txt                 </span><span># постраничный просмотр файла</span><span>
+<pre class="overflow-visible!" data-start="2634" data-end="2705"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>more file.txt
+more +5 file.txt        </span><span># начать с 5-й строки</span><span>
 </span></span></code></div></div></pre>
 
-`more` полезна для быстрого просмотра небольших файлов или логов, но `less` более универсальна.
+**Где применяют:**
 
-### Команда `head`
+* Быстрый просмотр небольших логов.
+* Сравнительно редкая команда, в современных системах `less` предпочтительнее.
 
-Команда `head` выводит **первые строки** файла. По умолчанию — 10 строк.
+### Команда `head` — начало файла
 
-Примеры использования:
+`head` выводит первые строки или байты файла. По умолчанию — 10 строк.
 
-<pre class="overflow-visible!" data-start="2180" data-end="2339"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>head</span><span> file.txt                 </span><span># первые 10 строк</span><span>
-</span><span>head</span><span> -n 5 file.txt            </span><span># первые 5 строк</span><span>
-</span><span>head</span><span> -c 50 file.txt           </span><span># первые 50 байт файла</span><span>
+<pre class="overflow-visible!" data-start="2960" data-end="3174"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>head</span><span> file.txt            </span><span># первые 10 строк</span><span>
+</span><span>head</span><span> -n 5 file.txt       </span><span># первые 5 строк</span><span>
+</span><span>head</span><span> -c 50 file.txt      </span><span># первые 50 байт файла</span><span>
+</span><span>head</span><span> -v file1.txt file2.txt  </span><span># выводить имена файлов перед содержимым</span><span>
 </span></span></code></div></div></pre>
 
-`head` особенно удобна для быстрого просмотра начала логов или конфигурационных файлов.
+**Где применяют:**
 
-### Команда `tail`
+* Проверка заголовков логов и конфигурационных файлов.
+* Быстрый просмотр первых строк скриптов или результатов генерации.
+* Использование в пайплайнах для фильтрации данных (`head | grep`).
 
-Команда `tail` выводит **последние строки** файла. По умолчанию — 10 строк.
+### Команда `tail` — конец файла
 
-Примеры использования:
+`tail` выводит последние строки или байты файла, по умолчанию — 10 строк.
 
-<pre class="overflow-visible!" data-start="2558" data-end="2752"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>tail</span><span> file.txt                 </span><span># последние 10 строк</span><span>
-</span><span>tail</span><span> -n 20 file.txt           </span><span># последние 20 строк</span><span>
-</span><span>tail</span><span> -f /var/log/syslog       </span><span># следить за обновлениями файла в реальном времени</span><span>
+<pre class="overflow-visible!" data-start="3511" data-end="3825"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>tail</span><span> file.txt               </span><span># последние 10 строк</span><span>
+</span><span>tail</span><span> -n 20 file.txt         </span><span># последние 20 строк</span><span>
+</span><span>tail</span><span> -c 50 file.txt         </span><span># последние 50 байт</span><span>
+</span><span>tail</span><span> -f /var/log/syslog     </span><span># следить за обновлениями файла в реальном времени</span><span>
+</span><span>tail</span><span> -F /var/log/syslog     </span><span># как -f, но продолжает следить при ротации файла</span><span>
 </span></span></code></div></div></pre>
 
-Ключ `-f` (follow) делает `tail` незаменимой для мониторинга логов в реальном времени.
+**Где применяют:**
 
-### Полезные заметки
+* Мониторинг логов приложений и системных сервисов.
+* Отслеживание ошибок и статусов в режиме реального времени.
+* Использование в скриптах для уведомлений и триггеров на события.
 
-* Для больших файлов предпочтительнее использовать `less` или `tail -f`, чтобы не перегружать терминал.
-* `cat` удобен для объединения файлов в один поток или создания новых файлов.
-* `head` и `tail` позволяют быстро проверить начало или конец файла без просмотра всего содержимого.
-* Эти команды часто комбинируются с `grep`, чтобы фильтровать содержимое по шаблону:
+### Полезные советы и комбинации
 
-<pre class="overflow-visible!" data-start="3246" data-end="3299"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>grep </span><span>"error"</span><span> /var/log/syslog | </span><span>tail</span><span> -n 20
+* Для больших файлов лучше использовать `less` или `tail -f`, чтобы не перегружать терминал.
+* `cat` подходит для маленьких файлов и объединения нескольких файлов в поток.
+* `head` и `tail` позволяют быстро проверить начало или конец файла без лишнего вывода.
+* Команды часто комбинируют с `grep` для фильтрации:
+
+<pre class="overflow-visible!" data-start="4391" data-end="4444"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>grep </span><span>"error"</span><span> /var/log/syslog | </span><span>tail</span><span> -n 20
 </span></span></code></div></div></pre>
+
+* Можно использовать пайплайны, например:
+
+<pre class="overflow-visible!" data-start="4487" data-end="4534"><div class="contain-inline-size rounded-2xl relative bg-token-sidebar-surface-primary"><div class="sticky top-9"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-bash"><span><span>cat</span><span> log.txt | grep </span><span>"timeout"</span><span> | less
+</span></span></code></div></div></pre>
+
+Это позволяет искать и просматривать результаты постранично.
 
 ### Практика
 
